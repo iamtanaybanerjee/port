@@ -1,0 +1,44 @@
+html,
+body {
+  height: 100%;
+}
+body {
+  display: flex;
+  flex-direction: column;
+}
+main {
+  flex: 1;
+}
+
+/* Simple utility classes similar to Tailwind */
+.pr-1 {
+  padding-right: 1rem;
+}
+.mt-n1 {
+  margin-top: calc(-1 * var(--pico-block-spacing-vertical));
+}
+.mb-1 {
+  margin-bottom: 1rem;
+}
+
+/* Base styles for project cards */
+article img {
+  width: calc(100% + 2 * var(--pico-block-spacing-horizontal));
+  margin-left: calc(-1 * var(--pico-block-spacing-horizontal));
+  margin-right: calc(-1 * var(--pico-block-spacing-horizontal));
+  max-width: none;
+  object-fit: cover;
+  border-radius: var(--pico-border-radius) var(--pico-border-radius) 0 0;
+  height: 200px;
+}
+
+/* Add the negative top margin and bottom margin to all images */
+article img {
+  margin-top: calc(-1 * var(--pico-block-spacing-vertical));
+  margin-bottom: 1rem;
+}
+
+.neog-footer {
+  text-align: center;
+  color: var(--muted, #666);
+}
