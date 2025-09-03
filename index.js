@@ -6,6 +6,7 @@ const { sequelize } = require("./models");
 const {
   spotifyLogin,
   spotifyCallback,
+  refreshAccessToken,
 } = require("./controllers/spotify.controllers");
 require("pg");
 
@@ -20,6 +21,7 @@ app.use(express.static(path.join(__dirname, "public")));
 //spotify oauth routes
 app.get("/spotify", spotifyLogin);
 app.get("/spotify/callback", spotifyCallback);
+app.post("/refresh_token", refreshAccessToken);
 
 sequelize
   .authenticate()

@@ -73,4 +73,43 @@ const spotifyCallback = async (req, res) => {
   }
 };
 
-module.exports = { spotifyLogin, spotifyCallback };
+const refreshAccessToken = async (req, res) => {
+  try {
+    const refresh_token = req.body.refresh_token;
+
+    const authHeader =
+      "Basic " +
+      Buffer.from(client_id + ":" + client_secret).toString("base64");
+
+    const response = await fetch("https://accounts.spotify.com/api/token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: authHeader,
+      },
+      body: new URLSearchParams({
+        grant_type: "refresh_token",
+        refresh_token: refresh_token,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      res.status(200).send({
+        access_token: data.access_token,
+        refresh_token: data.refresh_token, // Spotify may not always send a new one
+      });
+    } else {
+      res.status(response.status).send({
+        error: data.error || "Failed to refresh token",
+        details: data,
+      });
+    }
+  } catch (err) {
+    console.error("Error refreshing token:", err);
+    res.status(500).send({ error: "Internal Server Error" });
+  }
+};
+
+module.exports = { spotifyLogin, spotifyCallback, refreshAccessToken };
