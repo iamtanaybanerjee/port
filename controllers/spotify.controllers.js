@@ -1,6 +1,7 @@
 const crypto = require("crypto");
 const querystring = require("querystring");
 require("dotenv").config();
+const secureCookie = require("../services/secureCookie.service");
 
 //const redirect_uri = "https://cinebuff-ten.vercel.app/api/spotify/callback";
 const redirect_uri = "https://port-jade-mu.vercel.app/spotify/callback";
@@ -29,6 +30,7 @@ const spotifyLogin = async (req, res) => {
 };
 
 const spotifyCallback = async (req, res) => {
+  console.log("✅ Hit /spotify/callback route");
   // your application requests refresh and access tokens
   // after checking the state parameter
 
@@ -66,7 +68,9 @@ const spotifyCallback = async (req, res) => {
 
       const data = await response.json();
       console.log(data);
-      return res.json(data);
+
+      //   return res.json(data);
+      return res.json({ access_token: data["access_token"] });
     } catch (error) {
       return res.status(500).json({ error: error.message });
     }

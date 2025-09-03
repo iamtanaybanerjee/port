@@ -16,12 +16,17 @@ app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
 
-// serve static files from public
-app.use(express.static(path.join(__dirname, "public")));
 //spotify oauth routes
 app.get("/spotify", spotifyLogin);
 app.get("/spotify/callback", spotifyCallback);
 app.post("/refresh_token", refreshAccessToken);
+
+// serve static files from public
+app.use(express.static(path.join(__dirname, "public")));
+// //spotify oauth routes
+// app.get("/spotify", spotifyLogin);
+// app.get("/spotify/callback", spotifyCallback);
+// app.post("/refresh_token", refreshAccessToken);
 
 sequelize
   .authenticate()
