@@ -149,7 +149,13 @@ const getCurrentlyPlayingTrack = async (req, res) => {
     }
 
     const data = await response.json();
-    return res.status(200).json(data);
+    const currentTrack = {
+      name: data["item"]["name"],
+      trackId: data["item"]["id"],
+      albumName: data["item"]["album"]["name"],
+      duration: ddata["item"]["duration_ms"],
+    };
+    return res.status(200).json({ currentTrack });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
