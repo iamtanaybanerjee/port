@@ -138,9 +138,17 @@ const getCurrentlyPlayingTrack = async (req, res) => {
         },
       }
     );
+    // handle no content
+    if (response.status === 204) {
+      return res.status(200).json({ message: "No track is currently playing" });
+    }
+
+    // handle expired/invalid token
+    if (response.status === 401) {
+      return res.status(401).json({ error: "Invalid or expired access token" });
+    }
 
     const data = await response.json();
-
     return res.status(200).json(data);
   } catch (error) {
     return res.status(500).json({ error: error.message });
