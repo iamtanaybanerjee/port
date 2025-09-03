@@ -68,7 +68,8 @@ const spotifyCallback = async (req, res) => {
 
       const data = await response.json();
 
-      secureCookie(res, data["access_token"]);
+      //   secureCookie(res, data["access_token"]);
+      res.cookie("access_token", data["access_token"]);
       return res.json(data);
       //   return res.json({
       //     access_token: data["access_token"],
