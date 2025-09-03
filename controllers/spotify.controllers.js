@@ -127,8 +127,21 @@ const refreshAccessToken = async (req, res) => {
 const getCurrentlyPlayingTrack = async (req, res) => {
   try {
     const access_token = req.cookies.access_token;
-    console.log(access_token);
-    return res.status(200).json({ access_token: access_token });
+    if (!access_token)
+      return res.status(401).json({ error: "No access token is found" });
+
+    const response = await fetch(
+      "https://api.spotify.com/v1/me/player/currently-playing?market=IN",
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    );
+
+    const data = await response.json();
+
+    return res.status(200).json({ data });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
