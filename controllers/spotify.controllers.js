@@ -128,6 +128,7 @@ const getCurrentlyPlayingTrack = async (req, res) => {
   try {
     const access_token = req.cookies.access_token;
     console.log(access_token);
+    return res.status(200).json({ access_token: access_token });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
