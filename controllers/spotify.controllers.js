@@ -70,7 +70,10 @@ const spotifyCallback = async (req, res) => {
       console.log(data);
 
       //   return res.json(data);
-      return res.json({ access_token: data["access_token"] });
+      return res.json({
+        access_token: data["access_token"],
+        refresh_token: data["refresh_token"],
+      });
     } catch (error) {
       return res.status(500).json({ error: error.message });
     }
