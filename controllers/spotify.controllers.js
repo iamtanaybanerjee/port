@@ -67,13 +67,13 @@ const spotifyCallback = async (req, res) => {
       });
 
       const data = await response.json();
-      console.log(data);
 
-      //   return res.json(data);
-      return res.json({
-        access_token: data["access_token"],
-        refresh_token: data["refresh_token"],
-      });
+      secureCookie(res, data["access_token"]);
+      return res.json(data);
+      //   return res.json({
+      //     access_token: data["access_token"],
+      //     refresh_token: data["refresh_token"],
+      //   });
     } catch (error) {
       return res.status(500).json({ error: error.message });
     }
@@ -101,6 +101,8 @@ const refreshAccessToken = async (req, res) => {
     });
 
     const data = await response.json();
+
+    secureCookie(res, data.access_token);
 
     if (response.ok) {
       res.status(200).send({

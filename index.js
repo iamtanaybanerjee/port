@@ -19,7 +19,7 @@ app.use(cookieParser());
 //spotify oauth routes
 app.get("/spotify", spotifyLogin);
 app.get("/spotify/callback", spotifyCallback);
-app.post("/refresh_token", refreshAccessToken);
+app.post("/spotify/refresh_token", refreshAccessToken);
 
 // serve static files from public
 app.use(express.static(path.join(__dirname, "public")));
