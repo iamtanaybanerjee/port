@@ -7,6 +7,7 @@ const {
   spotifyLogin,
   spotifyCallback,
   refreshAccessToken,
+  getCurrentlyPlayingTrack,
 } = require("./controllers/spotify.controllers");
 require("pg");
 
@@ -20,6 +21,7 @@ app.use(cookieParser());
 app.get("/spotify", spotifyLogin);
 app.get("/spotify/callback", spotifyCallback);
 app.post("/spotify/refresh_token", refreshAccessToken);
+app.get("/spotify/get_currently_playing_song", getCurrentlyPlayingTrack);
 
 // serve static files from public
 app.use(express.static(path.join(__dirname, "public")));

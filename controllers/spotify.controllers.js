@@ -123,4 +123,18 @@ const refreshAccessToken = async (req, res) => {
   }
 };
 
-module.exports = { spotifyLogin, spotifyCallback, refreshAccessToken };
+const getCurrentlyPlayingTrack = async (req, res) => {
+  try {
+    const access_token = res.cookies.access_token;
+    console.log(access_token);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = {
+  spotifyLogin,
+  spotifyCallback,
+  refreshAccessToken,
+  getCurrentlyPlayingTrack,
+};
