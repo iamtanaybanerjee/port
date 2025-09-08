@@ -2,6 +2,7 @@ const crypto = require("crypto");
 const querystring = require("querystring");
 require("dotenv").config();
 const secureCookie = require("../services/secureCookie.service");
+const { getArtists } = require("../services/spotify.services");
 
 //const redirect_uri = "https://cinebuff-ten.vercel.app/api/spotify/callback";
 const redirect_uri = "https://port-jade-mu.vercel.app/spotify/callback";
@@ -188,7 +189,18 @@ const getUserTop10Tracks = async (req, res) => {
     }
 
     const data = await response.json();
-    return res.status(200).json({ data });
+
+    const topTracks = data["items"].map((item) => {
+      return {
+        name: item["name"],
+        trackId: item["id"],
+        albumName: item["album"]["name"],
+        duration: item["duration_ms"],
+        artists: getArtists(item["artists"]),
+      };
+    });
+
+    return res.status(200).json({ topTracks });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
