@@ -190,17 +190,18 @@ const getUserTop10Tracks = async (req, res) => {
 
     const data = await response.json();
 
-    const topTracks = data["items"].map((item) => {
-      return {
-        name: item["name"],
-        trackId: item["id"],
-        albumName: item["album"]["name"],
-        duration: item["duration_ms"],
-        artists: getArtists(item["artists"]),
-      };
-    });
+    // const topTracks = data["items"].map((item) => {
+    //   return {
+    //     name: item["name"],
+    //     trackId: item["id"],
+    //     albumName: item["album"]["name"],
+    //     duration: item["duration_ms"],
+    //     artists: getArtists(item["artists"]),
+    //   };
+    // });
 
-    return res.status(200).json({ topTracks });
+    // return res.status(200).json({ topTracks });
+    return res.status(200).json({ data });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
