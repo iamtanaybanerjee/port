@@ -29,6 +29,15 @@ app.get("/spotify/user_top_10_tracks", getUserTop10Tracks);
 app.put("/spotify/pause_current_track", pausePlayingTrack);
 app.put("/spotify/play_track", playTrack);
 
+// Error handling middleware (add this after all routes)
+app.use((err, req, res, next) => {
+  if (err instanceof SyntaxError && err.status === 400 && "body" in err) {
+    // Custom response for bad JSON
+    return res.status(400).json({ error: "Malformed or missing JSON body" });
+  }
+  next();
+});
+
 // serve static files from public
 app.use(express.static(path.join(__dirname, "public")));
 // //spotify oauth routes
