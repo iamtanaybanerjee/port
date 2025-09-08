@@ -9,6 +9,7 @@ const {
   refreshAccessToken,
   getCurrentlyPlayingTrack,
   getUserTop10Tracks,
+  pausePlayingTrack,
 } = require("./controllers/spotify.controllers");
 require("pg");
 
@@ -24,6 +25,7 @@ app.get("/spotify/callback", spotifyCallback);
 app.post("/spotify/refresh_token", refreshAccessToken);
 app.get("/spotify/get_currently_playing_song", getCurrentlyPlayingTrack);
 app.get("/spotify/user_top_10_tracks", getUserTop10Tracks);
+app.put("/spotify/pause_current_track", pausePlayingTrack);
 
 // serve static files from public
 app.use(express.static(path.join(__dirname, "public")));

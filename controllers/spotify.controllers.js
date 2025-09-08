@@ -206,10 +206,43 @@ const getUserTop10Tracks = async (req, res) => {
   }
 };
 
+const pausePlayingTrack = async (req, res) => {
+  try {
+    const access_token = req.cookies.access_token;
+    if (!access_token)
+      return res.status(401).json({ error: "No access token is found" });
+
+    const response = await fetch("https://api.spotify.com/v1/me/player/pause", {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    });
+
+    if (response.status === 403)
+      return res
+        .status(403)
+        .json({ message: "Premium required to use this feature" });
+    else if (response.status === 401)
+      return res.status(401).json({ error: "Invalid or expired access token" });
+    else if (response.status === 404)
+      return res.status(404).json({ error: "No active device found" });
+    else if (response.status === 204)
+      return res.status(200).json({ message: "Playback paused" });
+    else
+      return res
+        .status(response.status)
+        .json({ error: "Unexpected response from Spotify API" });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   spotifyLogin,
   spotifyCallback,
   refreshAccessToken,
   getCurrentlyPlayingTrack,
   getUserTop10Tracks,
+  pausePlayingTrack,
 };
