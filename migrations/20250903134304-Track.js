@@ -15,23 +15,27 @@ module.exports = {
       },
       albumName: {
         type: Sequelize.STRING,
+        allowNull: true,
       },
       artists: {
-        type: Sequelize.ARRAY(Sequelize.STRING), // use Sequelize.JSON if not using Postgres
+        type: Sequelize.ARRAY(Sequelize.STRING),
+        allowNull: true,
       },
       duration: {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      uri: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.fn("NOW"),
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.fn("NOW"),
       },
     });
   },
