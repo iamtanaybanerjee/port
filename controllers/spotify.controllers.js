@@ -244,11 +244,11 @@ const pausePlayingTrack = async (req, res) => {
 const playTrack = async (req, res) => {
   try {
     const access_token = req.cookies.access_token;
-    const { trackUri } = req.body;
+    const trackUri = req.body.trackUri;
     if (!access_token)
       return res.status(401).json({ error: "No access token is found" });
 
-    if (!trackUri)
+    if (!req.body || !trackUri)
       return res.status(400).json({ error: "Track URI is required" });
 
     const response = await fetch("https://api.spotify.com/v1/me/player/play", {
